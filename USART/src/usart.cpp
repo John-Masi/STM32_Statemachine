@@ -12,18 +12,15 @@ void USART<ADDR>::USART_init (void) {
 
 template <uintptr_t ADDR>
 char USART<ADDR>::get_char(void) {
+    while(!(usart->SR & (1 << 5)));
     char c = usart->DR;
     return c;
 }
 
 template <uintptr_t ADDR>
 void USART<ADDR>::send_char(char c) {
-    tx_buffer[tx_head++] = c;
-    if(tx_head >= 32) {
-        tx_head = 0;
-    }
-
-    usart->CR1 |= (1 << 7);
+    while(!(usart->SR & (1 << 7));
+    usart->DR = c;
 }
 
 template <uintptr_t ADDR>
@@ -52,18 +49,6 @@ void USART<ADDR>::get_string(uint8_t maxSize) {
     buffer[i] = '\0';
 
 } 
-
-template <uintptr_t ADDR>
-void USART<ADDR>::enable_interrupt(void) {
-    if(!(usart->CR1 & (1 << 7) && (usart->CR1 & (1 << 8)))) {
-        usart->CR1 |= (1 << 7);
-        usart->CR1 |= (1 << 8);
-    }
-    else {
-        usart->CR1 &= ~(1 << 7);
-        usart->CR1 &= ~(1 << 8);
-    }
-}
 
 template <uintptr_t ADDR>
 bool USART<ADDR>::parse_string(std::string_view string) {
