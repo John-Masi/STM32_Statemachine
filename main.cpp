@@ -1,10 +1,12 @@
 #include <cstdint>
 #include "GPIO/Include/leds.hpp"
+#include "USART/include/usart.hpp"
 #include "syscfg-nvic-rcc/include/exti.hpp"
 
 // Basic state machine using a basic LED and the button on a nucleof446re  
 
 static LEDS<GPIOA,GPIOC> led;
+static USART<USART2> usart;
 
 // LED State 
 enum LEDState {
@@ -33,6 +35,7 @@ void update_statemachine(LEDEvent event) {
     switch (current_state) {
         case STATE_OFF:
             if(event == LEDEvent::EVENT_PRESS) {
+                usart.send_str("LED is on");
                 led.led_on(5);
                 current_state = STATE_ON;
             }
@@ -40,6 +43,7 @@ void update_statemachine(LEDEvent event) {
 
         case STATE_ON:
             if(event == LEDEvent::EVENT_PRESS) {
+                usart.send_str("LED is off");
                 led.led_off(5); 
                 current_state = STATE_OFF;
             }
@@ -54,6 +58,7 @@ extern "C" void EXTI15_10_IRQHandler(void) {
 
 
 int main(void) {
+    usart.USART_init();
     led.button_init(0);
 
     while(1) {
