@@ -16,21 +16,21 @@ volatile uint8_t ticks{0};
 volatile char buff[32];
 
 // LED State 
-enum LEDState {
+enum State {
     STATE_ON,
     STATE_OFF,
     STATE_TOGGLE
 };
 
-enum LEDEvent {
+enum Event {
     EVENT_PRESS, 
     EVENT_LOG,
     EVENT_NULL
 };
 
-LEDState current_state = STATE_OFF;
+State current_state = STATE_OFF;
 
-LEDEvent check_event(void) {
+Event check_event(void) {
     if(bp) {
         bp = 0;
         return EVENT_PRESS;
@@ -48,7 +48,7 @@ LEDEvent check_event(void) {
 
 }
 
-void update_statemachine(LEDEvent event) {
+void update_statemachine(Event event) {
     if(event == EVENT_NULL) {return;}
 
     if(event == EVENT_LOG) {
@@ -95,7 +95,7 @@ int main(void) {
     led.button_init(0);
 
     while(1) {
-        LEDEvent event = check_event();
+        Event event = check_event();
         update_statemachine(event);
 
     }
