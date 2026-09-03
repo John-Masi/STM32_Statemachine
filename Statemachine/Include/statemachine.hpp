@@ -2,6 +2,7 @@
 #include "state_event.hpp"
 #include "GPIO/Include/leds.hpp"
 #include "USART/include/usart.hpp"
+#include "Timer/include/timer.hpp"
 #include "syscfg-nvic-rcc/include/exti.hpp"
 
 #ifndef STATEMACHINE_HPP
@@ -35,6 +36,6 @@ class Statemachine {
         static USART<USART2> usart;
         static Timer<TIM2> timer(1024,15624,0);
 
-}
+};
 
 #endif 
