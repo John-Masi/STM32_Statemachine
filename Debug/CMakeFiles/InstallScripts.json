@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/johnmasi/STM32CubeIDE/workspace_2.2.0/StateMachine/Debug/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
