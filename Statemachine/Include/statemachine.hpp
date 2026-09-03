@@ -1,9 +1,9 @@
 #include <cstdlib>
 #include "state_event.hpp"
-#include "GPIO/Include/leds.hpp"
-#include "USART/include/usart.hpp"
-#include "Timer/include/timer.hpp"
-#include "syscfg-nvic-rcc/include/exti.hpp"
+#include "../../GPIO/Include/leds.hpp"
+#include "../../USART/include/usart.hpp"
+#include "../../Timer/include/timer.hpp"
+#include "../../syscfg-nvic-rcc/include/exti.hpp"
 
 #ifndef STATEMACHINE_HPP
 #define STATEMACHINE_HPP
