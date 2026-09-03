@@ -1,0 +1,15 @@
+# Build directories
+Debug/
+Startup/
+
+.settings/
+*.launch
+
+# Toolchain files
+*.o
+*.d
+*.su
+*.elf
+*.map
+*.hex
+*.bin
