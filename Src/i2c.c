@@ -36,7 +36,7 @@ I2CDevice* i2c_instance(void) {
 	return &i2c_internal;
 }
 
-void i2c_poll(void) {
+/* void i2c_poll(void) {
 	I2C1->CR1 |= (1 << 8);
 	while(!(I2C1->SR1 & (1 << 0))) {
 
@@ -112,5 +112,6 @@ void i2c_read() {
 	 I2C1->CR1 |= (1 << 9);
 	 I2C1->CR1 |= (1 << 10);
 
-}
+} */
+
 

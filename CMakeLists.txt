@@ -36,7 +36,7 @@ set (MFLOAT_ABI_MIX                   "-mfloat-abi=softfp")
 #######################################################################
 
 ###################### VARIABLES ######################################
-set (PROJECT_NAME             "StateMachine")
+set (PROJECT_NAME             "StateMachineTest")
 set (PROJECT_TYPE             "exe")
 set (LINKER_SCRIPT            "../STM32F446RETX_FLASH.ld")
 set (MCPU                     "-mcpu=Cortex-M4")
@@ -52,9 +52,11 @@ set (PROJECT_SOURCES
 	Sources/main.c
 	Sources/syscalls.c
 	Sources/sysmem.c
+	Src/bsp.c
 	Src/gpio.c
-
-
+	Src/i2c.c
+	Src/statemachine.c
+	Src/timer.c
 	)
 
 set (PROJECT_DEFINES

@@ -1,9 +1,7 @@
-/*
- * exti.h
- *
- *  Created on: Aug 26, 2026
- *      Author: johnmasi
- */
+#ifndef EXTI_H
+#define EXTI_H
+
+#include <stdint.h>
 
 typedef struct {
 	volatile uint32_t r[5];
@@ -27,3 +25,5 @@ typedef struct {
 } NVIC_Typedef;
 
 #define NVIC ((NVIC_Typedef*)0xE000E100)
+
+#endif

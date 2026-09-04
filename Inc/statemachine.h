@@ -1,6 +1,9 @@
-
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
+
+#include "usart.h"
+#include "gpio.h"
+#include "exti.h"
 
 #include <stdint.h>
 
@@ -10,16 +13,16 @@ enum State {
 };
 
 enum Event {
-	EVENT_BTN,
+	BTN_PRESS,
 	EVENT_LOG,
 	EVENT_NULL
 };
 
 typedef struct Statemachine Statemachine;
 
-static Statemachine* const myMachine;
+extern Statemachine* const myMachine;
 
-void update_state(Event event);
-Event get_event(void);
+void update_state(enum Event event,Statemachine* sm);
+enum Event get_event(void);
 
 #endif

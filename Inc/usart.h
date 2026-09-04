@@ -1,5 +1,5 @@
-
-#pragma once
+#ifndef USART_H
+#define USART_H
 
 #include "rcc.h"
 #include "exti.h"
@@ -19,9 +19,9 @@ typedef struct {
 #define USART2 ((USART_Typedef *)0x40004400)
 #define BUFF_SIZE 32
 
-char buffer[BUFF_SIZE];
+//char buffer[BUFF_SIZE];
 
-char get_char(void) {
+/*char get_char(void) {
 	while(!(USART2->SR & (1 << 5)));
 	char c = USART2->DR;
 	return c;
@@ -38,4 +38,5 @@ void send_str(volatile char * buffer) {
 		buffer++;
 	}
 }
-
+*/
+#endif

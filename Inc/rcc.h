@@ -1,10 +1,7 @@
-/*
- * rcc.h
- *
- *  Created on: Aug 26, 2026
- *      Author: johnmasi
- */
+#ifndef RCC_H
+#define RCC_H
 
+#include <stdint.h>
 
 typedef struct {
 	 volatile uint32_t CR;
@@ -20,3 +17,5 @@ typedef struct {
 } RCC_Typedef;
 
 #define RCC ((RCC_Typedef*)0X40023800)
+
+#endif

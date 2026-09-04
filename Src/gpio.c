@@ -53,7 +53,7 @@ void GPIOA_INIT(void) {
 	GPIOA->addr->MODER |= (1 << (5 * 2));
 }
 
-void GPIOB_INIT(void) {when
+void GPIOB_INIT(void) {
 	return;
 }
 
