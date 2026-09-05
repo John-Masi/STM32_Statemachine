@@ -1,16 +1,6 @@
 #include "../Inc/statemachine.h"
-//#include "../Inc/usart.h"
 #include "../Inc/gpio.h"
-#include "../Inc/exti.h"
-
-volatile uint8_t bp = 0;
-volatile uint32_t count = 0;
-volatile uint32_t ticks = 0;
-
-void EXTI15_10_IRQHandler(void) {
-	bp = 1;
-	EXTI->PR |= (1 << 13);
-}
+#include <stdint.h>
 
 struct Statemachine {
 	enum State current_state;
@@ -19,7 +9,6 @@ struct Statemachine {
 static Statemachine int_machine = {
 		.current_state = STATE_OFF,
 };
-
 
 Statemachine* const myMachine = &int_machine;
 
@@ -45,10 +34,18 @@ void update_state(enum Event event,Statemachine* sm) {
 }
 
 enum Event get_event(void) {
-	if(bp) {
-		bp = 0;
+	if(get_bp()) {
+		clear_bp();
 		return BTN_PRESS;
 	}
+
+	//if(count == 1) {
+	//	ticks++;
+	//	count = 0;
+	//	if(ticks >= 60) {
+	//		return EVENT_LOG;
+	//	}
+	//}
 
 	return EVENT_NULL;
 }

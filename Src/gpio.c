@@ -1,7 +1,7 @@
 #include "../Inc/gpio.h"
 #include "../Inc/exti.h"
 #include "../Inc/rcc.h"
-
+#include <stdint.h>
 
 typedef struct {
     volatile uint32_t MODER;
@@ -26,21 +26,25 @@ typedef void (*GPIO_Init)(void);
 struct GPIODevice {
 	GPIO_Typedef* addr;
 	GPIO_Init initFunc;
+	uint8_t bp;
 };
 
 static GPIODevice GPIOA_INST = {
 		.addr = GPIOA_REG,
 		.initFunc = GPIOA_INIT,
+		.bp = 0
 };
 
 static GPIODevice GPIOB_INST = {
 		.addr = GPIOB_REG,
 		.initFunc = GPIOB_INIT,
+		.bp = 0
 };
 
 static GPIODevice GPIOC_INST = {
 		.addr = GPIOC_REG,
 		.initFunc = GPIOC_INIT,
+		.bp = 0
 };
 
 
@@ -79,6 +83,23 @@ void led_off(void) {
 	GPIOA->addr->ODR &= ~(1 << 5);
 }
 
+void set_bp(void) {
+	GPIOA->bp = 1;
+}
+
+void clear_bp(void) {
+	GPIOA->bp = 0;
+}
+
+uint8_t get_bp(void) {
+	return GPIOA->bp;
+}
+
+
+void EXTI15_10_IRQHandler(void) {
+	set_bp();
+	EXTI->PR |= (1 << 13);
+}
 
 
 

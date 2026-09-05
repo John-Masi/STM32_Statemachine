@@ -3,9 +3,8 @@
 
 #include "usart.h"
 #include "gpio.h"
+#include "timer.h"
 #include "exti.h"
-
-#include <stdint.h>
 
 enum State {
 	STATE_OFF,

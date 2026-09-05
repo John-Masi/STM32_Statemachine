@@ -21,5 +21,8 @@ void GPIOB_INIT(void);
 void GPIOC_INIT(void);
 void led_on(void);
 void led_off(void);
+void clear_bp(void);
+void set_bp(void);
+uint8_t get_bp(void);
 
 #endif

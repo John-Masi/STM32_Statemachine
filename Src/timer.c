@@ -24,7 +24,7 @@ struct TIMDevice {
 };
 
 static TIMDevice TIM2_Inst = {
-		.addr = TIM2ADDR,
+		.addr = TIM2ADDR
 };
 
 TIMDevice* const TIM2 = &TIM2_Inst;
@@ -35,5 +35,18 @@ void start_tim(void) {
 
 void stop_tim(void) {
 	TIM2->addr->CR1 &= ~(1 << 0);
+}
+
+void tim_init(void) {
+	TIM2->addr->ARR = 15624;
+	TIM2->addr->PSC = 1024;
+	TIM2->addr->DIER |= (1 << 0);
+}
+
+void TIMIRQ(uint32_t cnt) {
+	if(TIM2->addr->CR1 & (1 << 0)) {
+		TIM2->addr->CR1 &= ~(1 << 0);
+		cnt++;
+	}
 }
 
