@@ -1,5 +1,4 @@
 #include "../Inc/statemachine.h"
-#include "../Inc/gpio.h"
 #include <stdint.h>
 
 struct Statemachine {
@@ -20,6 +19,7 @@ void update_state(enum Event event,Statemachine* sm) {
 		case STATE_OFF:
 			if(event == BTN_PRESS) {
 				led_on();
+				send_char('G');
 				sm->current_state = STATE_ON;
 			}
 
@@ -28,6 +28,7 @@ void update_state(enum Event event,Statemachine* sm) {
 		case STATE_ON:
 			if(event == BTN_PRESS) {
 				led_off();
+				//send_str("LED off");
 				sm->current_state = STATE_OFF;
 			}
 	}

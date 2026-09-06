@@ -27,7 +27,7 @@
 
 int main(void)
 {
-	init_bsp();
+	bsp_init();
 	while(1) {;
 		enum Event event = get_event();
 		update_state(event,myMachine);

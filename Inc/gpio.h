@@ -19,6 +19,7 @@ extern GPIODevice* const GPIOC;
 void GPIOA_INIT(void);
 void GPIOB_INIT(void);
 void GPIOC_INIT(void);
+void GPIOC_AFR(void);
 void led_on(void);
 void led_off(void);
 void clear_bp(void);

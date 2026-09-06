@@ -57,6 +57,7 @@ set (PROJECT_SOURCES
 	Src/i2c.c
 	Src/statemachine.c
 	Src/timer.c
+	Src/usart.c
 	)
 
 set (PROJECT_DEFINES

@@ -1,6 +1,4 @@
 #include "../Inc/gpio.h"
-#include "../Inc/exti.h"
-#include "../Inc/rcc.h"
 #include <stdint.h>
 
 typedef struct {
@@ -55,6 +53,18 @@ GPIODevice* const GPIOC = &GPIOC_INST;
 void GPIOA_INIT(void) {
 	GPIOA->addr->MODER &= ~(3 << (5 * 2));
 	GPIOA->addr->MODER |= (1 << (5 * 2));
+
+	GPIOA->addr->MODER &= ~(3 << (2 * 2));
+	GPIOA->addr->MODER &= ~(3 << (3 * 2));
+
+	GPIOA->addr->MODER |= (2 << (2 * 2));
+	GPIOA->addr->MODER |= (2 << (3 * 2));
+
+	GPIOA->addr->AFRL &= ~(0xF << (2 * 4));
+	GPIOA->addr->AFRL &= ~(0xF << (3 * 4));
+
+	GPIOA->addr->AFRL |= (7 << (2 * 4));
+	GPIOA->addr->AFRL |= (7 << (3 * 4));
 }
 
 void GPIOB_INIT(void) {
@@ -62,17 +72,9 @@ void GPIOB_INIT(void) {
 }
 
 void GPIOC_INIT(void) {
-	RCC->AHB1ENR |= (1 << 2);
-	RCC->APB2ENR |= (1 << 14);
-
 	GPIOC->addr->MODER &= ~(3 << (13 * 2));
 
-	SYSCFG->EXTICR4 |= (0b0010 << 4);
 
-	EXTI->IMR |= (1 << 13);
-	EXTI->FSTR |= (1 << 13);
-
-	NVIC->ISER0[1] |= (1 << 8);
 }
 
 void led_on(void) {
@@ -93,12 +95,6 @@ void clear_bp(void) {
 
 uint8_t get_bp(void) {
 	return GPIOA->bp;
-}
-
-
-void EXTI15_10_IRQHandler(void) {
-	set_bp();
-	EXTI->PR |= (1 << 13);
 }
 
 
