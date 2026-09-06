@@ -19,7 +19,7 @@ void update_state(enum Event event,Statemachine* sm) {
 		case STATE_OFF:
 			if(event == BTN_PRESS) {
 				led_on();
-				send_char('G');
+				send_str("LED on")
 				sm->current_state = STATE_ON;
 			}
 
@@ -28,7 +28,7 @@ void update_state(enum Event event,Statemachine* sm) {
 		case STATE_ON:
 			if(event == BTN_PRESS) {
 				led_off();
-				//send_str("LED off");
+				send_str("LED off");
 				sm->current_state = STATE_OFF;
 			}
 	}
@@ -39,14 +39,6 @@ enum Event get_event(void) {
 		clear_bp();
 		return BTN_PRESS;
 	}
-
-	//if(count == 1) {
-	//	ticks++;
-	//	count = 0;
-	//	if(ticks >= 60) {
-	//		return EVENT_LOG;
-	//	}
-	//}
 
 	return EVENT_NULL;
 }
