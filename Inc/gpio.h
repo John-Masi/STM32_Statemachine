@@ -37,5 +37,6 @@ void LCD_Init(void);
 void printNum(uint8_t num);
 void printStr(char* buffer);
 void clearLCD(void);
+void printTemp(float temp);
 
 #endif

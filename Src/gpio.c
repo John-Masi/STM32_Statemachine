@@ -78,7 +78,6 @@ void GPIOB_INIT(void) {
 void GPIOC_INIT(void) {
 	GPIOC->addr->MODER &= ~(3 << (13 * 2));
 
-	// LCD Datalines init
 	for(int i = 0; i <= 3; i++) {
 		GPIOC->addr->MODER &= ~(3 << (i * 2));
 		GPIOC->addr->MODER |= (1 << (i * 2));
@@ -105,6 +104,16 @@ void clear_bp(void) {
 uint8_t get_bp(void) {
 	return GPIOA->bp;
 }
+
+// LCD Command macros
+#define FN4BIT2 0x28 // Function set 4-bit 2 line
+#define BOTTOM 0xC0 // Print to bottom line
+#define TOP 0x80 // Print to top line
+
+#define DCURSOR_ON 0x0D // Displau on cursor on
+#define DCURSOR_OFF 0x0C // Display on cursor off
+#define ENTRYNORM 0x06 // Standard entry mode (moves cursor right after each char)
+#define CLEAR 0x01 /// Clear display
 
 void delay(void) {
 	for(volatile uint32_t i = 0; i <= DELAY; i++);
@@ -155,10 +164,10 @@ void LCD_Init(void) {
     delay();
 
 
-    writeLCD(0x28, 0);
-    writeLCD(0x0D, 0);
-    writeLCD(0x06, 0);
-    writeLCD(0x01, 0);
+    writeLCD(FN4BIT2, 0);
+    writeLCD(DCURSOR_ON, 0);
+    writeLCD(ENTRYNORM, 0);
+    writeLCD(CLEAR, 0);
     delay();
 }
 
@@ -168,7 +177,6 @@ void printNum(uint8_t num) {
 	uint8_t d3 = d2 % 10;
 	uint8_t d4 = d2 / 10;
 	uint8_t d5 = d4 % 10;
-
 
 	writeLCD(d5 + '0', 1);
 	writeLCD(d3 + '0', 1);
@@ -185,11 +193,14 @@ void printStr(char* buffer) {
 }
 
 void clearLCD(void) {
-	writeLCD(0x01,0);
+	writeLCD(CLEAR,0);
 	delay();
 }
 
-
-
-
-
+void printTemp(float temp) {
+	uint8_t t_int = (uint8_t)temp;
+	uint8_t t_frac =  (uint8_t)(100.0f * (temp - (uint8_t)t_int));
+	writeLCD(t_int,1);
+	writeLCD(t_frac,1);
+	delay();
+}

@@ -1,4 +1,5 @@
 #include "../Inc/timer.h"
+#include "../Inc/exti.h"
 
 typedef struct {
 	volatile uint32_t CR1;
@@ -21,10 +22,12 @@ typedef struct {
 
 struct TIMDevice {
 	TIM_Typedef* addr;
+	uint32_t count;
 };
 
 static TIMDevice TIM2_Inst = {
-		.addr = TIM2ADDR
+		.addr = TIM2ADDR,
+		.count = 0
 };
 
 TIMDevice* const TIM2 = &TIM2_Inst;
@@ -38,15 +41,32 @@ void stop_tim(void) {
 }
 
 void tim_init(void) {
-	TIM2->addr->ARR = 15624;
-	TIM2->addr->PSC = 1024;
+	TIM2->addr->ARR = 15623;
+	TIM2->addr->PSC = 1023;
 	TIM2->addr->DIER |= (1 << 0);
+	NVIC->ISER0[0] |= (1 << 28);
+
+	TIM2->addr->CR1 |= (1 << 0);
 }
 
-void TIMIRQ(uint32_t cnt) {
+void TIM2IRQ(void) {
 	if(TIM2->addr->CR1 & (1 << 0)) {
 		TIM2->addr->CR1 &= ~(1 << 0);
-		cnt++;
+		TIM2->count++;
 	}
 }
 
+uint32_t get_count(void) {
+	return TIM2->count;
+}
+
+void update_count(uint32_t val) {
+	TIM2->count = val;
+}
+
+void TIM2_IRQHandler(void) {
+	if(TIM2->addr->SR & (1 << 0)) {
+		TIM2->addr->SR &= ~(1 << 0);
+		TIM2->count++;
+	}
+}

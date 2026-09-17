@@ -5,6 +5,7 @@
 #include "gpio.h"
 #include "timer.h"
 #include "exti.h"
+#include "i2c.h"
 
 enum State {
 	STATE_OFF,

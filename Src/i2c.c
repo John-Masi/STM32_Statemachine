@@ -16,9 +16,13 @@ typedef struct {
 
 typedef void (*ClockEnable)(void);
 
+uint8_t data[6];
+
 struct I2CDevice {
 	I2C_Typedef* Reg;
 	ClockEnable clock_en;
+	float humid;
+	float temp;
 
 };
 
@@ -30,13 +34,13 @@ static I2CDevice i2c_internal = {
 };
 
 
-I2CDevice* const MY_I2C = &i2c_internal;
+I2CDevice* const I2C1 = &i2c_internal;
 
 I2CDevice* i2c_instance(void) {
 	return &i2c_internal;
 }
 
-/* void i2c_poll(void) {
+void i2c_poll(void) {
 	I2C1->CR1 |= (1 << 8);
 	while(!(I2C1->SR1 & (1 << 0))) {
 
@@ -44,11 +48,6 @@ I2CDevice* i2c_instance(void) {
 
 	(void)I2C1->SR1;
 	I2C1->DR = (0x40 << 1);
-
-	// Debugging purposes
-	//if((I2C1->SR1 & (1 << 10))) {
-	//	GPIOA->ODR |= (1 << 5);
-	//}
 
 	while(!(I2C1->SR1 & (1 << 1))) {
 
@@ -112,6 +111,14 @@ void i2c_read() {
 	 I2C1->CR1 |= (1 << 9);
 	 I2C1->CR1 |= (1 << 10);
 
-} */
+}
+
+void tempCalc(uint16_t temp) {
+	I2C1->temp = (-40.0f + 165.0f) * (((float) temp) / 65535.0f);
+};
+
+void humidCalc(uint16_t humid) {
+	I2C1->humid = 100.0f * (((float) humid) / 65535.0f);
+};
 
 

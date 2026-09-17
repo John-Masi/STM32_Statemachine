@@ -15,10 +15,12 @@ void EXTI15_10_IRQHandler(void) {
 	EXTI->PR |= (1 << 13);
 }
 
+
 void CLOCK_EN(void) {
 	RCC->AHB1ENR |= (1 << 0);
 	RCC->AHB1ENR |= (1 << 1);
 	RCC->AHB1ENR |= (1 << 2);
+	RCC->APB1ENR |= (1 << 0);
 	RCC->APB2ENR |= (1 << 14);
 }
 
@@ -27,7 +29,9 @@ void init_bsp(void) {
 	GPIOA_INIT();
 	GPIOB_INIT();
 	GPIOC_INIT();
+	tim_init();
 	EXTI15_10_INIT();
 	LCD_Init();
+
 }
 
