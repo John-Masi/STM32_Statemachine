@@ -115,15 +115,15 @@ uint8_t get_bp(void) {
 #define ENTRYNORM 0x06 // Standard entry mode (moves cursor right after each char)
 #define CLEAR 0x01 /// Clear display
 
-void delay(void) {
-	for(volatile uint32_t i = 0; i <= DELAY; i++);
+void delay(uint32_t del) {
+	for(volatile uint32_t i = 0; i <= del; i++);
 }
 
 void EPulse(void) {
 	GPIOB->addr->BSSR |= (1 << 3);
-	delay();
+	delay(250);
 	GPIOB->addr->BSSR |= (1 << 19);
-	delay();
+	delay(250);
 }
 
 void sendBits(uint8_t value) {
@@ -145,30 +145,30 @@ void writeLCD(uint8_t byte, uint8_t data) {
 }
 
 void LCD_Init(void) {
-    delay();
+    delay(250);
 
 
     GPIOB->addr->BSSR = (1 << 17);
     GPIOB->addr->BSSR = (1 << 18);
 
     sendBits(0x03);
-    delay();
+    delay(250);
 
     sendBits(0x03);
-    delay();
+    delay(250);
 
     sendBits(0x03);
-    delay();
+    delay(250);
 
     sendBits(0x02);
-    delay();
+    delay(250);
 
 
     writeLCD(FN4BIT2, 0);
     writeLCD(DCURSOR_ON, 0);
     writeLCD(ENTRYNORM, 0);
     writeLCD(CLEAR, 0);
-    delay();
+    delay(250);
 }
 
 void printNum(uint8_t num) {
@@ -194,13 +194,14 @@ void printStr(char* buffer) {
 
 void clearLCD(void) {
 	writeLCD(CLEAR,0);
-	delay();
+	delay(250);
 }
 
 void printTemp(float temp) {
 	uint8_t t_int = (uint8_t)temp;
 	uint8_t t_frac =  (uint8_t)(100.0f * (temp - (uint8_t)t_int));
 	writeLCD(t_int,1);
+	writeLCD('.',1);
 	writeLCD(t_frac,1);
-	delay();
+	delay(250);
 }
