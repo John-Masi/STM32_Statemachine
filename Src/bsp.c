@@ -1,6 +1,8 @@
 #include "../Inc/bsp.h"
 #include <stdint.h>
 
+#define LCD_ON 0
+
 void EXTI15_10_INIT(void) {
 	SYSCFG->EXTICR4 |= (0b0010 << 4);
 
@@ -22,6 +24,7 @@ void CLOCK_EN(void) {
 	RCC->AHB1ENR |= (1 << 2);
 	RCC->APB1ENR |= (1 << 0);
 	RCC->APB2ENR |= (1 << 14);
+	RCC->APB1ENR |= (1 << 17);
 }
 
 void init_bsp(void) {
@@ -29,9 +32,12 @@ void init_bsp(void) {
 	GPIOA_INIT();
 	GPIOB_INIT();
 	GPIOC_INIT();
+	USART2_INIT();
 	tim_init();
 	EXTI15_10_INIT();
-	LCD_Init();
+	#if LCD_ON
+		LCD_Init();
+	#endif
 
 }
 
