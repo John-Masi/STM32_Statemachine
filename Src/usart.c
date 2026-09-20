@@ -41,7 +41,7 @@ void send_str(char* buffer) {
 
 void USART2_INIT(void) {
 	USART2_ADDR->BRR = 0x008B;
-	USART2_ADDR->CR1 = (1 << 2);
-	USART2_ADDR->CR1 = (1 << 3);
-	USART2_ADDR->CR1 = (1 << 13);
+	USART2_ADDR->CR1 |= (1 << 2);
+	USART2_ADDR->CR1 |= (1 << 3);
+	USART2_ADDR->CR1 |= (1 << 13);
 }
