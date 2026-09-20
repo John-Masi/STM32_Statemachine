@@ -73,6 +73,23 @@ void GPIOB_INIT(void) {
 
 	GPIOB->addr->MODER &= ~((3 << 0) | (3 << 2) | (3 << 4) | (3 << 6));
 	GPIOB->addr->MODER |=  ((1 << 0) | (1 << 2) | (1 << 4) | (1 << 6));
+
+	GPIOB->addr->MODER &= ~(3 << (8 *2));
+	GPIOB->addr->MODER |= (2 << (8 *2));
+
+	GPIOB->addr->AFRH &= ~(0xF << (4 * 0));
+	GPIOB->addr->AFRH |= (4 << (4 * 0));
+
+	GPIOB->addr->MODER &= ~(3 << (9 *2));
+	GPIOB->addr->MODER |= (2 << (9 *2));
+
+	GPIOB->addr->AFRH &= ~(0xF << (4 * 1));
+	GPIOB->addr->AFRH |= (4 << (4 * 1));
+
+	GPIOB->addr->OTYPER |= (1 << 8) | (1 << 9);
+	GPIOB->addr->OSPEEDR |= (0b11 << (8 * 2)) | (0b11 << (9 * 2));
+	GPIOB->addr->PUPDR &= ~((3 << (8*2)) | (3 << (9*2)));
+	GPIOB->addr->PUPDR |= (1 << (8 * 2)) | (1 << (9 * 2));
 }
 
 void GPIOC_INIT(void) {
