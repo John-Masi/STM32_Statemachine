@@ -20,8 +20,22 @@ void update_state(enum Event event,Statemachine* sm) {
 	if(event == EVENT_NULL) { return; }
 
 	if(event == EVENT_LOG) {
-		clearLCD();
-		printStr("Timer");
+		send_str("Checking HTU31 connection");
+		send_char('\n');
+		if(isHTU31()) {
+			send_str("HTU31 ACK");
+			send_char('\n');
+			i2c_poll();
+		}
+		else {
+			send_str("HTU31 NACK");
+			send_char('\n');
+		}
+
+		#if LCD_ON
+			clearLCD();
+		#endif
+
 		ticks = 0;
 	}
 
@@ -34,6 +48,7 @@ void update_state(enum Event event,Statemachine* sm) {
 					printStr("LED on");
 				#endif
 				send_str("LED ON");
+				send_char('\n');
 				sm->current_state = STATE_ON;
 			}
 
@@ -47,6 +62,7 @@ void update_state(enum Event event,Statemachine* sm) {
 					printStr("LED off");
 				#endif
 				send_str("LED OFF");
+				send_char('\n');
 				sm->current_state = STATE_OFF;
 			}
 	}
@@ -61,10 +77,13 @@ enum Event get_event(void) {
 	if(get_count()) {
 		update_count(0);
 		ticks++;
-		if(ticks >= 20) {
+		if(ticks >= 10) {
 			return EVENT_LOG;
 		}
 	}
+
+	return EVENT_NULL;
+}
 
 	return EVENT_NULL;
 }
