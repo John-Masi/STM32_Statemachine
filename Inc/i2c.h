@@ -12,6 +12,7 @@ void i2c_poll(void);
 void i2c_read(void);
 void tempCalc(uint16_t temp);
 void humidCalc(uint16_t humid);
+uint8_t isHTU31(void); // Check if our HTU31 is connected or not
 I2CDevice* get_instance(void);
 
 #define I2C1_EN 0
