@@ -40,22 +40,31 @@ I2CDevice* i2c_instance(void) {
 	return &i2c_internal;
 }
 
+
 uint8_t isHTU31(void) {
 	I2C1->CR1 |= (1 << 8);
 
-	while(!(I2C1->SR1 & (1 << 0))) {
-
-	}
+	while(!(I2C1->SR1 & (1 << 0)));
 
 	(void)I2C1->SR1;
 	I2C1->DR = (0x40 << 1);
 
-	while(!(I2C1->SR1 & (1 << 1))) {
+	while(!(I2C1->SR1 & (1 << 1) || (I2C1->SR1 & (1 << 10))));
+
+	if(I2C1->SR1 & (1 << 10)) {
+		I2C1->SR1 &= ~(1 << 10);
+		I2C1->CR1 |= (1 << 9);
 		return 0;
 	}
 
+	(void)I2C1->SR1;
+	(void)I2C1->SR2;
+
+	I2C1->CR1 |= (1 << 9);
+
 	return 1;
 }
+
 
 void i2c_poll(void) {
 	I2C1->CR1 |= (1 << 8);
